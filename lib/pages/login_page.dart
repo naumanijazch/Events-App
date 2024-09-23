@@ -1,18 +1,27 @@
+import 'package:events_app_flutter/components/custom_button.dart';
+import 'package:events_app_flutter/components/input_textfield.dart';
+import 'package:events_app_flutter/constants/customStyling.dart';
 import 'package:flutter/material.dart';
 
+import 'forgot_password.dart';
+
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  LoginPage({super.key});
+
+  // controllers
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Color.fromARGB(255, 222, 221, 221),
+    return Scaffold(
+      backgroundColor: customBackgroundColor, // Use global background color
       body: SafeArea(
         child: Column(
-          children: const [
+          children: [
             // App name title
-            SizedBox(height: 100),
-            Center(
+            const SizedBox(height: 100),
+            const Center(
               child: Text(
                 "Events Application",
                 style: TextStyle(
@@ -21,17 +30,52 @@ class LoginPage extends StatelessWidget {
                   fontFamily: "Roboto",
                 ),
               ),
-            )
+            ),
 
             // email input
+            const SizedBox(height: 60),
+            InputTextfield(
+              controller: usernameController,
+              customLabelText: "Enter your Email",
+              obscureText: false,
+            ),
 
             // password input
+            const SizedBox(height: 40),
+            InputTextfield(
+              controller: passwordController,
+              customLabelText: "Enter your Password",
+              obscureText: true,
+            ),
 
             // forgot password
+            const SizedBox(height: 5),
+            Padding(
+              padding: const EdgeInsets.only(right: 24.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ForgotPasswordPage()),
+                      );
+                    },
+                    child: const Text(
+                      "Forgot Password?",
+                    ),
+                  ),
+                ],
+              ),
+            ),
 
             // login button
+            const SizedBox(height: 20),
+            const CustomButton()
 
-            // dont have an account? sign in
+            // don't have an account? sign in
 
             // continue with google auth
           ],
