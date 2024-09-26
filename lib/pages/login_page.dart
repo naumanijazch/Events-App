@@ -3,6 +3,7 @@ import 'package:events_app_flutter/components/input_textfield.dart';
 import 'package:events_app_flutter/components/square_tile.dart';
 import 'package:events_app_flutter/components/text_divider.dart';
 import 'package:events_app_flutter/constants/customStyling.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'forgot_password.dart';
@@ -11,8 +12,15 @@ class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
   // controllers
-  final usernameController = TextEditingController();
+  final emailController = TextEditingController();
   final passwordController = TextEditingController();
+
+  void signUserIn() async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: emailController.text,
+      password: passwordController.text,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +46,7 @@ class LoginPage extends StatelessWidget {
             // email input
             const SizedBox(height: 75),
             InputTextfield(
-              controller: usernameController,
+              controller: emailController,
               customLabelText: "Enter your Email",
               obscureText: false,
             ),
@@ -76,7 +84,7 @@ class LoginPage extends StatelessWidget {
 
             // login button
             const SizedBox(height: 40),
-            const CustomButton(),
+            CustomButton(onTap: signUserIn),
 
             // divider
             const SizedBox(height: 40),

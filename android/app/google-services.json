@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "882744713161",
+    "project_id": "eventsapp-flutter",
+    "storage_bucket": "eventsapp-flutter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:882744713161:android:044bc0312678e6225a9218",
+        "android_client_info": {
+          "package_name": "com.eventsapp.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGYRTZx6njnk89zdLQN3R1X4Uijbpklt8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
