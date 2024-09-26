@@ -7,15 +7,23 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-      margin: const EdgeInsets.symmetric(horizontal: 176),
+      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+      margin: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width * 0.2),
       decoration: const BoxDecoration(
-          color: customPrimaryColor,
-          borderRadius: BorderRadius.all(Radius.circular(customRadius))),
+        color: customPrimaryColor,
+        borderRadius: BorderRadius.all(Radius.circular(customRadius)),
+      ),
       child: const Center(
-        child: Text(
-          "Click Me",
-          style: TextStyle(color: Colors.white),
+        child: FittedBox(
+          // Ensures the text resizes to fit the container
+          child: Text(
+            "Log In",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+            ),
+          ),
         ),
       ),
     );

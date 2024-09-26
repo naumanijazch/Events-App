@@ -1,5 +1,7 @@
 import 'package:events_app_flutter/components/custom_button.dart';
 import 'package:events_app_flutter/components/input_textfield.dart';
+import 'package:events_app_flutter/components/square_tile.dart';
+import 'package:events_app_flutter/components/text_divider.dart';
 import 'package:events_app_flutter/constants/customStyling.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +20,7 @@ class LoginPage extends StatelessWidget {
       backgroundColor: customBackgroundColor, // Use global background color
       body: SafeArea(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // App name title
             const SizedBox(height: 100),
@@ -33,7 +36,7 @@ class LoginPage extends StatelessWidget {
             ),
 
             // email input
-            const SizedBox(height: 60),
+            const SizedBox(height: 75),
             InputTextfield(
               controller: usernameController,
               customLabelText: "Enter your Email",
@@ -72,12 +75,39 @@ class LoginPage extends StatelessWidget {
             ),
 
             // login button
-            const SizedBox(height: 20),
-            const CustomButton()
+            const SizedBox(height: 40),
+            const CustomButton(),
 
-            // don't have an account? sign in
+            // divider
+            const SizedBox(height: 40),
+            const TextDivider("Or Continue with"),
 
             // continue with google auth
+            const SizedBox(height: 40),
+            const SquareTile(
+                imagePath: 'assets/googleLogo.png',
+                tileText: "Continue with Google"),
+
+            // don't have an account? sign up
+            const SizedBox(height: 40),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text("Don't have an account?"),
+                const SizedBox(width: 5),
+                GestureDetector(
+                  onTap: () {
+                    // navigate to sign up page
+                  },
+                  child: const Text(
+                    "Sign Up",
+                    style: TextStyle(
+                      color: customPrimaryColor,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
