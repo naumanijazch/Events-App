@@ -1,7 +1,8 @@
 import 'package:events_app_flutter/pages/home_page.dart';
-import 'package:events_app_flutter/pages/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import 'login_or_registered_page.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
@@ -17,7 +18,7 @@ class AuthPage extends StatelessWidget {
                 return HomePage();
               }
               // user is not logged in
-              return LoginPage();
+              return const LoginOrRegisteredPage();
             }));
   }
 }

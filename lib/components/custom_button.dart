@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
   final VoidCallback onTap;
-  const CustomButton({super.key, required this.onTap});
+  final String textPrompt;
+  const CustomButton(
+      {super.key, required this.onTap, required this.textPrompt});
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +19,11 @@ class CustomButton extends StatelessWidget {
           color: customPrimaryColor,
           borderRadius: BorderRadius.all(Radius.circular(customRadius)),
         ),
-        child: const Center(
+        child: Center(
           child: FittedBox(
             child: Text(
-              "Log In",
-              style: TextStyle(
+              textPrompt,
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 16,
               ),

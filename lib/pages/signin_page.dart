@@ -6,24 +6,29 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../components/input_textfield.dart';
-import 'forgot_password.dart';
 
-class LoginPage extends StatefulWidget {
-  final VoidCallback onTap;
-  LoginPage({Key? key, required this.onTap}) : super(key: key);
+class SigninPage extends StatefulWidget {
+  final Function()? onTap;
+  SigninPage({super.key, required this.onTap});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SigninPage> createState() => _SigninPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SigninPageState extends State<SigninPage> {
   // controllers
   final emailController = TextEditingController();
-
   final passwordController = TextEditingController();
+  final passwordConfirmController = TextEditingController();
 
-  void signUserIn() async {
-    // Show loader while signing in
+  void signUserUp() async {
+    // Validate password before proceeding
+    if (passwordConfirmController.text != passwordController.text) {
+      alertPopup("Error", "Passwords do not match");
+      return;
+    }
+
+    // Show loader while signing up
     showDialog(
       context: context,
       barrierDismissible: false, // Prevent closing dialog by tapping outside
@@ -36,12 +41,13 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
 
-    // Log in to Firebase
+    // Sign up in Firebase
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text,
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
       );
+      // Optionally, navigate to the home page or another relevant screen
     } on FirebaseAuthException catch (e) {
       // Close the loader dialog if there's an error
       if (Navigator.canPop(context)) {
@@ -49,20 +55,23 @@ class _LoginPageState extends State<LoginPage> {
       }
 
       // Show alert dialog with error message
-      if (e.code == 'user-not-found') {
-        alertPopup("Error", "No user found for that email.");
-      } else if (e.code == 'wrong-password') {
-        alertPopup("Error", "Wrong password provided for that user.");
+      if (e.code == 'email-already-in-use') {
+        alertPopup("Error", "The email is already in use.");
+      } else if (e.code == 'invalid-email') {
+        alertPopup("Error", "The email address is not valid.");
+      } else if (e.code == 'weak-password') {
+        alertPopup("Error", "The password is too weak.");
+      } else {
+        alertPopup("Error", "Something went wrong. Please try again.");
       }
     } finally {
-      // Ensure the dialog is closed after the login attempt
+      // Ensure the dialog is closed after the sign-up attempt
       if (Navigator.canPop(context)) {
         Navigator.pop(context);
       }
     }
   }
 
-  //* popup is not working on chrome, try again when using emulator
   void alertPopup(String title, String message) {
     // Show error popup
     showDialog(
@@ -120,32 +129,17 @@ class _LoginPageState extends State<LoginPage> {
                 obscureText: true,
               ),
 
-              // forgot password
-              const SizedBox(height: 5),
-              Padding(
-                padding: const EdgeInsets.only(right: 24.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ForgotPasswordPage()),
-                        );
-                      },
-                      child: const Text(
-                        "Forgot Password?",
-                      ),
-                    ),
-                  ],
-                ),
+              // confirm password input
+              const SizedBox(height: 40),
+              InputTextfield(
+                controller: passwordConfirmController,
+                customLabelText: "Confirm your Password",
+                obscureText: true,
               ),
 
-              // login button
+              // sign-up button
               const SizedBox(height: 40),
-              CustomButton(onTap: signUserIn, textPrompt: 'Log In',),
+              CustomButton(onTap: signUserUp, textPrompt: "Sign Up"),
 
               // divider
               const SizedBox(height: 40),
@@ -154,20 +148,21 @@ class _LoginPageState extends State<LoginPage> {
               // continue with google auth
               const SizedBox(height: 40),
               const SquareTile(
-                  imagePath: 'assets/googleLogo.png',
-                  tileText: "Continue with Google"),
+                imagePath: 'assets/googleLogo.png',
+                tileText: "Continue with Google",
+              ),
 
-              // don't have an account? sign up
+              // already have an account? log in
               const SizedBox(height: 40),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Don't have an account?"),
+                  const Text("Already have an account?"),
                   const SizedBox(width: 5),
                   GestureDetector(
                     onTap: widget.onTap,
                     child: const Text(
-                      "Sign Up",
+                      "Log In", // Fix text here
                       style: TextStyle(
                         color: customPrimaryColor,
                       ),
